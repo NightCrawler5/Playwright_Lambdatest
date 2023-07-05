@@ -7,10 +7,6 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest",
-    "test.watch": "jest --watchAll",
-    "test-seq": "jest -i",
-    "test-filter": "jest buyerIntent-filter.test.ts"
   },
   "keywords": [],
   "author": "",
