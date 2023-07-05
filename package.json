@@ -1,0 +1,23 @@
+{
+  "name": "playwrightpoc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest",
+    "test.watch": "jest --watchAll",
+    "test-seq": "jest -i",
+    "test-filter": "jest buyerIntent-filter.test.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.35.1",
+    "playwright": "^1.35.1",
+    "typescript": "^5.1.6"
+  }
+}
