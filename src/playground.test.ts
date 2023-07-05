@@ -1,8 +1,31 @@
 import { test, expect } from '@playwright/test';
+import { chromium } from 'playwright';
+
+(async () => {
+  const capabilities = {
+    'browserName': 'Chrome', // Browsers allowed: `Chrome`, `MicrosoftEdge`, `pw-chromium`, `pw-firefox` and `pw-webkit`
+    'browserVersion': 'latest',
+    'LT:Options': {
+      'platform': 'Windows 10',
+      'build': 'Playwright Sample Build',
+      'name': 'Playwright Sample Test',
+      'user': process.env.LT_USERNAME,
+      'accessKey': process.env.LT_ACCESS_KEY,
+      'network': true,
+      'video': true,
+      'console': true
+    }
+  }
+
+  const browser = await chromium.connect({
+    wsEndpoint: `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`
+  })
 
 test.describe.configure({ mode: 'parallel' });
 
-test('Test Scenario 1', async ({page}) => {
+const page = await browser.newPage()
+
+test('Test Scenario 1', async () => {
     await page.goto('https://www.lambdatest.com/selenium-playground/');
     await page.getByRole('link', { name: 'Simple Form Demo' }).click();
     await expect(page).toHaveURL(/.*simple-form-demo/)
@@ -14,7 +37,7 @@ test('Test Scenario 1', async ({page}) => {
     expect(await page.locator('#message').textContent()).toBe(welcomeText)
 });
 
-test('Test Scenario 2', async ({page}) => {
+test('Test Scenario 2', async () => {
     await page.goto('https://www.lambdatest.com/selenium-playground/');
     await page.getByRole('link', { name: 'Drag & Drop Sliders' }).click();
     await page.waitForSelector("//*[@id='rangeSuccess']/preceding-sibling::*")
@@ -41,7 +64,7 @@ test('Test Scenario 2', async ({page}) => {
     expect(await page.locator("#rangeSuccess").textContent()).toBe(targetVal)
 });
 
-test('Test Scenario 3', async ({page}) => {
+test('Test Scenario 3', async () => {
     await page.goto('https://www.lambdatest.com/selenium-playground/');
     await page.getByRole('link', { name: 'Input Form Submit' }).click();
     await page.getByRole('button', { name: 'Submit' }).click();
@@ -60,3 +83,5 @@ test('Test Scenario 3', async ({page}) => {
     await page.getByRole('button', { name: 'Submit' }).click();
     expect(await page.locator("//*[@id='seleniumform']/following-sibling::*").textContent()).toStrictEqual("Thanks for contacting us, we will get back to you shortly.")
 });
+
+})()
